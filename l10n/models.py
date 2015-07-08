@@ -110,8 +110,7 @@ class Address(models.Model):
                                          blank=True, null=True)
     user_billing = models.OneToOneField(User, related_name='billing_address',
                                         blank=True, null=True)
-
-    name = models.CharField(_('Name'), max_length=255)
+    
     address = models.CharField(_('Address'), max_length=255)
     address2 = models.CharField(_('Address2'), max_length=255, blank=True)
     zip_code = models.CharField(_('Zip Code'), max_length=20)
