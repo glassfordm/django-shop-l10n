@@ -95,7 +95,6 @@ class AdminArea(models.Model):
 
 BASE_ADDRESS_TEMPLATE = \
 _("""
-Name: %(name)s,
 Address: %(address)s,
 Zip-Code: %(zipcode)s,
 City: %(city)s,
@@ -110,13 +109,14 @@ class Address(models.Model):
                                          blank=True, null=True)
     user_billing = models.OneToOneField(User, related_name='billing_address',
                                         blank=True, null=True)
-    
+
+    country = models.ForeignKey(Country, verbose_name=_('country'))
+    state = models.ForeignKey(AdminArea, verbose_name=_('state'))
+    city = models.CharField(_('City'), max_length=20)
+
     address = models.CharField(_('Address'), max_length=255)
     address2 = models.CharField(_('Address2'), max_length=255, blank=True)
     zip_code = models.CharField(_('Zip Code'), max_length=20)
-    city = models.CharField(_('City'), max_length=20)
-    state = models.ForeignKey(AdminArea, verbose_name=_('state'))
-    country = models.ForeignKey(Country, verbose_name=_('country'))
 
     class Meta(object):
         abstract = True
@@ -124,7 +124,7 @@ class Address(models.Model):
         verbose_name_plural = _("Addresses")
 
     def __unicode__(self):
-        return '%s (%s, %s)' % (self.name, self.zip_code, self.city)
+        return '%s (%s, %s)' % (self.zip_code, self.city)
 
     def clone(self):
         new_kwargs = dict([(fld.name, getattr(self, fld.name))
@@ -133,7 +133,6 @@ class Address(models.Model):
 
     def as_text(self):
         return ADDRESS_TEMPLATE % {
-            'name': self.name,
             'address': '%s\n%s' % (self.address, self.address2),
             'zipcode': self.zip_code,
             'city': self.city,
