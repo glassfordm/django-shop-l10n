@@ -74,7 +74,7 @@ class TranslatedObjectMixin(object):
 
 # class ExampleTranslation(models.Model):
 # 
-#     menu = models.ForeignKey(Example, related_name="translations")
+#     menu = models.ForeignKey(Example, related_name="translations", on_delete=models.CASCADE)
 #     languagecode = models.CharField(_('language'), max_length=10, choices=settings.LANGUAGES)
 #     title = models.CharField(_('title'), max_length=100, blank=False)
 #     description = models.CharField(_('Description'), max_length=100, blank=True)
